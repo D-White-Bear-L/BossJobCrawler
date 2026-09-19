@@ -1,0 +1,5 @@
+# 第一阶段 MVP 依赖（运行环境：虚拟环境 wjx，已装 Playwright）
+playwright>=1.40
+# 说明：
+# - 本项目使用标准库 csv / urllib 导出与 HTTP 探测，无需 pandas / requests。
+# - 若后续想用 pandas 分析，可自行追加：pandas
