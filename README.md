@@ -45,6 +45,25 @@
 
 ---
 
+## 🧰 技术栈
+
+| 分类 | 选型 | 说明 |
+| --- | --- | --- |
+| 语言 | **Python 3.10+** | 项目主体语言 |
+| 浏览器自动化 | **Playwright**（sync API） | 启动并控制真实浏览器 |
+| 浏览器 | **Microsoft Edge**（`channel="msedge"`） | 复用本机已装 Edge，比自带 Chromium 更接近真实环境 |
+| 采集方式 | 浏览器内 `fetch` 调用官方公开接口 | `wapi/.../joblist.json` 与 `detail.json`，而非解析 DOM |
+| 数据存储 | 标准库 `csv`（UTF-8 BOM） | 岗位数据输出到 `data/jobs.csv` |
+| 会话/断点 | 标准库 `json` | 登录态（`storage_state`）+ 断点（`state.json`） |
+| 命令行 | 标准库 `argparse` | `--cities` / `--keywords` / `--pages` 等参数 |
+| 频率控制 | 标准库 `random` / `time` | 请求间随机等待、不并发 |
+| 其他 | `urllib.parse` / `datetime` / `os` / `sys` | URL 编码、时间戳、路径与运行时辅助 |
+
+> **第三方依赖仅有 `playwright`**（见 `requirements.txt`），不依赖 `pandas` / `requests` / `httpx`，保持轻量。
+> 浏览器驱动通过 `playwright install` 安装（使用本机 Edge 时可跳过）。
+
+---
+
 ## 📦 安装
 
 ```bash
