@@ -39,7 +39,8 @@ def collect_keyword_page(ab, exporter, city, city_code, keyword, page, fetch_det
     if raw_jobs is None:
         return -1, False
 
-    logger.info(f"发现岗位：{len(raw_jobs)}（hasMore={has_more}）")
+    salary_count = sum(1 for j in raw_jobs if j.get("salaryDesc"))
+    logger.info(f"发现岗位：{len(raw_jobs)}（hasMore={has_more}，含薪资 {salary_count} 条）")
 
     added = 0
     for job in raw_jobs:
@@ -105,6 +106,7 @@ def main():
 
         # 3) 采集
         blocked = False
+        consecutive_failures = 0
         for city in cities:
             city_code = config.CITY_CODES.get(city)
             if not city_code:
@@ -123,8 +125,15 @@ def main():
                         ab, exporter, city, city_code, keyword, page, fetch_detail
                     )
                     if added < 0:
-                        blocked = True
-                        break
+                        # 单页失败（限流抖动/导航中止）不整跑停掉，跳过继续
+                        consecutive_failures += 1
+                        logger.warn(f"本页采集失败（连续 {consecutive_failures} 次），跳过继续")
+                        if consecutive_failures >= 3:
+                            logger.error("连续多次失败，暂停采集（可稍后断点续采）。")
+                            blocked = True
+                            break
+                        continue
+                    consecutive_failures = 0
                     ckpt.mark_done(key)
                     if not has_more:
                         logger.info("该关键词已无更多页，进入下一关键词。")

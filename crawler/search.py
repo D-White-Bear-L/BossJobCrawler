@@ -18,11 +18,13 @@ def fetch_joblist(anti_bot, keyword, city_code, page=1, page_size=30):
     # 优先 fetch_api（带 scene=1 能拿到明文薪资 salaryDesc + 显式分页），
     # 拿不到数据时（限流/失败）再退回 search_via_ui（导航+拦截，但无薪资且分页不生效）
     data = anti_bot.fetch_with_retry(SEARCH_API, params, max_retries=3)
-    if not (data.get("zpData") or {}).get("jobList"):
+    if not isinstance(data, dict) or not (data.get("zpData") or {}).get("jobList"):
         data = anti_bot.search_via_ui(keyword, city_code, page_num=page)
 
-    if is_blocked_response(data):
-        logger.error(f"列表接口被拦截 code={data.get('code')} msg={data.get('message')}")
+    if not isinstance(data, dict) or is_blocked_response(data):
+        code = data.get("code") if isinstance(data, dict) else None
+        msg = data.get("message") if isinstance(data, dict) else "无响应（导航被中止）"
+        logger.error(f"列表接口被拦截 code={code} msg={msg}")
         return None, False
 
     zp = data.get("zpData") or {}

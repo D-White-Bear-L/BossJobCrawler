@@ -7,20 +7,23 @@ venv/
 
 # ===== 敏感信息：登录态（含 wt2 等 cookie，绝对不能提交）=====
 state/login_state.json
+state/login_state.json.old
+state/*.old
 
-# 断点续采状态（可再生，可忽略）
+# 断点续采状态（可再生，不入库）
 state/state.json
 
 # ===== 调试证据：截图 / HTML / 日志（可能含登录页等敏感内容）=====
 debug/
 *.log
 
-# ===== 采集输出（可再生，不入库）=====
-data/
+# ===== 采集输出 =====
+# 主产出 data/jobs.csv（真实采集数据，已获授权随仓库提交，作为样例）
+# 备份文件不入库（体积大且为历史冗余）
+data/jobs_nosalary_backup.csv
+data/*_backup.csv
 
-# ===== Claude Code 本地配置 =====
+# ===== 其他本地配置 =====
 .claude/
-
-# ===== 临时文件 =====
-*.tmp
 .DS_Store
+*.tmp
