@@ -6,6 +6,19 @@
 保存为 `data/jobs.csv`，以便研究珠三角地区 AI / 大模型 / Python / Java 等方向的技术栈需求。
 **所有数据均为程序真实运行采集，不使用任何 Mock 或假数据。**
 
+## 🧰 技术栈
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.40%2B-2EAD33?logo=playwright&logoColor=white" />
+  <img alt="Microsoft Edge" src="https://img.shields.io/badge/Microsoft%20Edge-msedge-0078D4?logo=microsoftedge&logoColor=white" />
+  <img alt="Storage" src="https://img.shields.io/badge/Storage-CSV%20%2F%20JSON-1679A3" />
+  <img alt="CLI" src="https://img.shields.io/badge/CLI-argparse-000000" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg" />
+</p>
+
+> 第三方依赖仅有 `playwright`（见 `requirements.txt`），不依赖 `pandas` / `requests` / `httpx`。
+
 ---
 
 ## ⚠️ 合规与使用声明（必读）
@@ -42,25 +55,6 @@
 | Python | 3.10+ |
 | 浏览器 | 本机已安装 **Microsoft Edge**（默认 `CHANNEL = "msedge"`） |
 | 依赖 | `playwright` |
-
----
-
-## 🧰 技术栈
-
-| 分类 | 选型 | 说明 |
-| --- | --- | --- |
-| 语言 | **Python 3.10+** | 项目主体语言 |
-| 浏览器自动化 | **Playwright**（sync API） | 启动并控制真实浏览器 |
-| 浏览器 | **Microsoft Edge**（`channel="msedge"`） | 复用本机已装 Edge，比自带 Chromium 更接近真实环境 |
-| 采集方式 | 浏览器内 `fetch` 调用官方公开接口 | `wapi/.../joblist.json` 与 `detail.json`，而非解析 DOM |
-| 数据存储 | 标准库 `csv`（UTF-8 BOM） | 岗位数据输出到 `data/jobs.csv` |
-| 会话/断点 | 标准库 `json` | 登录态（`storage_state`）+ 断点（`state.json`） |
-| 命令行 | 标准库 `argparse` | `--cities` / `--keywords` / `--pages` 等参数 |
-| 频率控制 | 标准库 `random` / `time` | 请求间随机等待、不并发 |
-| 其他 | `urllib.parse` / `datetime` / `os` / `sys` | URL 编码、时间戳、路径与运行时辅助 |
-
-> **第三方依赖仅有 `playwright`**（见 `requirements.txt`），不依赖 `pandas` / `requests` / `httpx`，保持轻量。
-> 浏览器驱动通过 `playwright install` 安装（使用本机 Edge 时可跳过）。
 
 ---
 
